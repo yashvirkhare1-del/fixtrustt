@@ -24,7 +24,7 @@ export function Header() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className="text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
-          <Link to="/technicians" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90 active:scale-95">Book a repair</Link>
+          <Link to="/technicians" className="rounded-full bg-highlight px-5 py-2.5 text-sm font-semibold text-highlight-foreground transition hover:opacity-90 active:scale-95">Book a repair</Link>
         </nav>
         <button className="md:hidden" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
