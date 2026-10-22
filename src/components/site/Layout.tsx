@@ -62,3 +62,33 @@ export function Footer() {
     </footer>
   );
 }
+
+export function Intro() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (sessionStorage.getItem("ft-intro")) return;
+    sessionStorage.setItem("ft-intro", "1");
+    setShow(true);
+    const t = setTimeout(() => setShow(false), 1700);
+    return () => clearTimeout(t);
+  }, []);
+  if (!show) return null;
+  return (
+    <div aria-hidden className="fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-highlight text-highlight-foreground">
+      <p className="font-display text-6xl font-black uppercase md:text-8xl">Fix<span className="opacity-60">Trust</span></p>
+      <div className="mt-6 h-1 w-48 overflow-hidden rounded-full bg-highlight-foreground/15"><div className="h-full animate-bar bg-highlight-foreground" /></div>
+      <p className="absolute bottom-10 text-sm font-semibold uppercase tracking-widest">Loading trust</p>
+    </div>
+  );
+}
+
+export function Marquee({ items }: { items: string[] }) {
+  const row = [...items, ...items];
+  return (
+    <div className="overflow-hidden border-y border-ink bg-highlight py-5 text-highlight-foreground">
+      <div className="flex w-max animate-marquee gap-12 whitespace-nowrap">
+        {row.map((t, i) => <span key={i} className="font-display text-4xl font-black uppercase md:text-6xl">{t} <span className="opacity-40">✦</span></span>)}
+      </div>
+    </div>
+  );
+}
