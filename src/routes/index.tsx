@@ -32,7 +32,7 @@ function Index() {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse({ email });
-    if (!r.success) return setError(r.error.issues[0].message);
+    if (!r.success) return setError(r.error.issues[0]?.message ?? "Please enter a valid email");
     setError("");
     setDone(true);
   };
