@@ -1,120 +1,131 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { z } from "zod";
+import { Search, X, WashingMachine, Zap, Droplets, Tv, Hammer, Wrench, ReceiptText, ShieldCheck, FolderClock, ArrowRight } from "lucide-react";
+import hero from "@/assets/hero.jpg";
+import { Reveal } from "@/components/site/Reveal";
+import { TechCard } from "@/components/site/TechCard";
+import { categories, technicians } from "@/lib/data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "FixTrust — Repair professionals you can trust" },
-      { name: "description", content: "Find local repair pros with transparent pricing, real reviews and lasting repair records." },
+      { name: "description", content: "Find local repair pros with transparent pricing, real experience, reviews and lasting repair records." },
       { property: "og:title", content: "FixTrust — Repair professionals you can trust" },
-      { property: "og:description", content: "Transparent pricing, real reviews and lasting repair records for every home repair." },
+      { property: "og:description", content: "Transparent pricing, real experience and lasting repair records for every home repair." },
     ],
   }),
   component: Index,
 });
 
-const benefits = [
-  { n: "01", t: "Transparent pricing", d: "See visit charges and itemized estimates before anyone steps through your door." },
-  { n: "02", t: "Proven experience", d: "Skills, service history and customer reviews, all in one clear profile." },
-  { n: "03", t: "Lasting records", d: "Every repair saved to your home's history, so nothing is ever guesswork again." },
-];
-
-const schema = z.object({
-  email: z.string().trim().email("Please enter a valid email").max(255),
-});
+const icons = { appliance: WashingMachine, electrical: Zap, plumbing: Droplets, electronics: Tv, carpentry: Hammer, installation: Wrench } as const;
 
 function Index() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
+  const [cat, setCat] = useState("");
+  const [loc, setLoc] = useState("");
+  const words = "Repair professionals you can actually trust.".split(" ");
 
-  const submit = (e: FormEvent) => {
+  const search = (e: FormEvent) => {
     e.preventDefault();
-    const r = schema.safeParse({ email });
-    if (!r.success) return setError(r.error.issues[0]?.message ?? "Please enter a valid email");
-    setError("");
-    setDone(true);
+    navigate({ to: "/technicians", search: { q: q.trim().slice(0, 80) || undefined, category: cat || undefined, area: loc.trim().slice(0, 60) || undefined } });
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans text-foreground">
-      <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-8">
-        <span className="text-lg font-semibold tracking-tight">
-          Fix<span className="text-primary">Trust</span>
-        </span>
-        <a href="#signup" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-          Get early access
-        </a>
-      </header>
-
-      <main>
-        <section className="mx-auto max-w-5xl px-6 pb-32 pt-24 md:pt-36">
-          <p className="mb-6 text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
-          <h1 className="max-w-3xl font-display text-5xl leading-[1.05] md:text-7xl">
-            Repair professionals you can <em className="text-primary">actually</em> trust.
-          </h1>
-          <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            FixTrust helps households choose local repair pros through honest prices, verified reviews and a record of every job done.
-          </p>
-          <a
-            href="#signup"
-            className="mt-12 inline-flex rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-          >
-            Join the waitlist
-          </a>
-        </section>
-
-        <section className="border-t border-border">
-          <div className="mx-auto grid max-w-5xl gap-16 px-6 py-28 md:grid-cols-3 md:gap-12">
-            {benefits.map((b) => (
-              <div key={b.n}>
-                <span className="text-sm text-primary">{b.n}</span>
-                <h2 className="mt-4 font-display text-3xl">{b.t}</h2>
-                <p className="mt-3 leading-relaxed text-muted-foreground">{b.d}</p>
-              </div>
-            ))}
+    <>
+      <section className="relative overflow-hidden">
+        <div aria-hidden className="pointer-events-none absolute -left-32 top-10 size-[28rem] animate-drift rounded-full bg-accent blur-3xl" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 md:grid-cols-[1.1fr_1fr] md:pt-24">
+          <div>
+            <p className="animate-rise text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
+            <h1 className="mt-6 font-display text-5xl leading-[1.05] md:text-7xl">
+              {words.map((w, i) => (
+                <span key={i} className={`inline-block animate-rise ${w === "actually" ? "italic text-primary" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
+              ))}
+            </h1>
+            <p className="mt-6 max-w-lg animate-rise text-lg leading-relaxed text-muted-foreground" style={{ animationDelay: "700ms" }}>
+              Compare local pros by honest prices, real experience and a record of every job done.
+            </p>
           </div>
-        </section>
-
-        <section id="signup" className="border-t border-border">
-          <div className="mx-auto max-w-xl px-6 py-32 text-center">
-            <h2 className="font-display text-4xl md:text-5xl">Be first to try FixTrust.</h2>
-            <p className="mt-4 text-muted-foreground">One email when we launch. Nothing else.</p>
-            {done ? (
-              <p className="mt-10 rounded-full bg-accent px-6 py-4 text-sm font-medium text-accent-foreground" role="status">
-                Thanks — you're on the list.
-              </p>
-            ) : (
-              <form onSubmit={submit} noValidate className="mt-10">
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <label htmlFor="email" className="sr-only">Email address</label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    maxLength={255}
-                    aria-invalid={!!error}
-                    className="flex-1 rounded-full border border-input bg-card px-6 py-3.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-ring/20"
-                  />
-                  <button type="submit" className="rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition hover:opacity-90">
-                    Sign up
-                  </button>
-                </div>
-                {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
-              </form>
-            )}
+          <div className="animate-rise overflow-hidden rounded-3xl" style={{ animationDelay: "300ms" }}>
+            <img src={hero} alt="Repair technician fixing a washing machine" width={1280} height={1024} className="aspect-[5/4] w-full object-cover" />
           </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-border">
-        <div className="mx-auto max-w-5xl px-6 py-10 text-sm text-muted-foreground">
-          © 2026 FixTrust · A student concept prototype
         </div>
-      </footer>
-    </div>
+        <form onSubmit={search} className="relative mx-auto -mt-8 max-w-6xl animate-rise px-6" style={{ animationDelay: "850ms" }}>
+          <div className="grid gap-2 rounded-2xl border border-border bg-card p-2 shadow-[0_20px_50px_-30px_var(--primary)] md:grid-cols-[1fr_1fr_1.4fr_auto]">
+            <input aria-label="Location" value={loc} onChange={(e) => setLoc(e.target.value)} maxLength={60} placeholder="Your area" className="rounded-xl bg-transparent px-4 py-3 text-sm outline-none transition focus:bg-muted" />
+            <select aria-label="Category" value={cat} onChange={(e) => setCat(e.target.value)} className="rounded-xl bg-transparent px-4 py-3 text-sm outline-none transition focus:bg-muted">
+              <option value="">Any service</option>
+              {categories.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+            </select>
+            <div className="relative">
+              <input aria-label="Problem" value={q} onChange={(e) => setQ(e.target.value)} maxLength={80} placeholder="Describe the problem, e.g. washer leaking" className="w-full rounded-xl bg-transparent px-4 py-3 pr-9 text-sm outline-none transition focus:bg-muted" />
+              {q && <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"><X className="size-4" /></button>}
+            </div>
+            <button className="flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 active:scale-95"><Search className="size-4" />Search</button>
+          </div>
+        </form>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-28">
+        <Reveal><h2 className="font-display text-4xl md:text-5xl">What needs fixing?</h2></Reveal>
+        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3">
+          {categories.map((c, i) => {
+            const Icon = icons[c.slug as keyof typeof icons];
+            return (
+              <Reveal key={c.slug} delay={i * 70}>
+                <Link to="/technicians" search={{ category: c.slug }} className="lift group block rounded-2xl border border-border bg-card p-6">
+                  <Icon className="size-6 text-primary transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" />
+                  <p className="mt-6 font-medium">{c.name}</p>
+                  <p className="text-sm text-muted-foreground">{c.blurb}</p>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-32">
+        <Reveal className="flex items-end justify-between gap-6">
+          <div>
+            <h2 className="font-display text-4xl md:text-5xl">Featured professionals</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Illustrative sample profiles for this prototype.</p>
+          </div>
+          <Link to="/technicians" className="hidden items-center gap-1 text-sm text-primary md:flex">View all <ArrowRight className="size-4" /></Link>
+        </Reveal>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {technicians.slice(0, 3).map((t, i) => <Reveal key={t.id} delay={i * 90}><TechCard t={t} /></Reveal>)}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-32">
+        <Reveal><h2 className="max-w-2xl font-display text-4xl md:text-5xl">Built on transparency, not promises.</h2></Reveal>
+        <div className="mt-14 grid gap-12 md:grid-cols-3">
+          {[
+            { I: ReceiptText, t: "Itemized estimates", d: "See visit charges, parts and labour before any work begins." },
+            { I: ShieldCheck, t: "Real accountability", d: "Reviews tied to completed jobs and a visible service history." },
+            { I: FolderClock, t: "Lasting repair records", d: "Every repair, part and warranty saved to your home's history." },
+          ].map(({ I, t, d }, i) => (
+            <Reveal key={t} delay={i * 90}>
+              <I className="size-6 text-primary" />
+              <h3 className="mt-5 text-xl font-semibold">{t}</h3>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{d}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pt-32">
+        <Reveal className="rounded-3xl bg-primary px-8 py-16 text-center text-primary-foreground md:py-20">
+          <h2 className="font-display text-4xl md:text-5xl">Fix it once. Fix it right.</h2>
+          <p className="mx-auto mt-4 max-w-md opacity-80">See how FixTrust works, or start comparing professionals now.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link to="/technicians" className="rounded-full bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:opacity-90 active:scale-95">Find a pro</Link>
+            <Link to="/how-it-works" className="rounded-full border border-primary-foreground/40 px-6 py-3 text-sm font-medium transition hover:bg-primary-foreground/10">How it works</Link>
+          </div>
+        </Reveal>
+      </section>
+    </>
   );
 }
