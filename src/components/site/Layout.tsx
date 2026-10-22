@@ -24,7 +24,7 @@ export function Header() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className="text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
-          <Link to="/technicians" className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90 active:scale-95">Book a repair</Link>
+          <Link to="/technicians" className="rounded-full bg-highlight px-5 py-2.5 text-sm font-semibold text-highlight-foreground transition hover:opacity-90 active:scale-95">Book a repair</Link>
         </nav>
         <button className="md:hidden" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -60,5 +60,35 @@ export function Footer() {
       </div>
       <div className="mx-auto max-w-6xl px-6 pb-10 text-xs text-muted-foreground">© 2026 FixTrust concept</div>
     </footer>
+  );
+}
+
+export function Intro() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    if (sessionStorage.getItem("ft-intro")) return;
+    sessionStorage.setItem("ft-intro", "1");
+    setShow(true);
+    const t = setTimeout(() => setShow(false), 1700);
+    return () => clearTimeout(t);
+  }, []);
+  if (!show) return null;
+  return (
+    <div aria-hidden className="fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-highlight text-highlight-foreground">
+      <p className="font-display text-6xl font-black uppercase md:text-8xl">Fix<span className="opacity-60">Trust</span></p>
+      <div className="mt-6 h-1 w-48 overflow-hidden rounded-full bg-highlight-foreground/15"><div className="h-full animate-bar bg-highlight-foreground" /></div>
+      <p className="absolute bottom-10 text-sm font-semibold uppercase tracking-widest">Loading trust</p>
+    </div>
+  );
+}
+
+export function Marquee({ items }: { items: string[] }) {
+  const row = [...items, ...items];
+  return (
+    <div className="overflow-hidden border-y border-ink bg-highlight py-5 text-highlight-foreground">
+      <div className="flex w-max animate-marquee gap-12 whitespace-nowrap">
+        {row.map((t, i) => <span key={i} className="font-display text-4xl font-black uppercase md:text-6xl">{t} <span className="opacity-40">✦</span></span>)}
+      </div>
+    </div>
   );
 }

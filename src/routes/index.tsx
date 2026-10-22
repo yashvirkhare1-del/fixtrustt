@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { Search, X, WashingMachine, Zap, Droplets, Tv, Hammer, Wrench, ReceiptText, ShieldCheck, FolderClock, ArrowRight } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import { Reveal } from "@/components/site/Reveal";
+import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
 import { categories, technicians } from "@/lib/data";
 
@@ -39,9 +40,9 @@ function Index() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 md:grid-cols-[1.1fr_1fr] md:pt-24">
           <div>
             <p className="animate-rise text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
-            <h1 className="mt-6 font-display text-5xl leading-[1.05] md:text-7xl">
+            <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[6.5rem]">
               {words.map((w, i) => (
-                <span key={i} className={`inline-block animate-rise ${w === "actually" ? "italic text-primary" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
+                <span key={i} className={`inline-block animate-rise ${w === "actually" ? "rounded-md bg-highlight px-2 text-highlight-foreground" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
               ))}
             </h1>
             <p className="mt-6 max-w-lg animate-rise text-lg leading-relaxed text-muted-foreground" style={{ animationDelay: "700ms" }}>
@@ -67,6 +68,8 @@ function Index() {
           </div>
         </form>
       </section>
+
+      <div className="mt-28 -rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div>
 
       <section className="mx-auto max-w-6xl px-6 pt-28">
         <Reveal><h2 className="font-display text-4xl md:text-5xl">What needs fixing?</h2></Reveal>
@@ -117,12 +120,12 @@ function Index() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pt-32">
-        <Reveal className="rounded-3xl bg-primary px-8 py-16 text-center text-primary-foreground md:py-20">
-          <h2 className="font-display text-4xl md:text-5xl">Fix it once. Fix it right.</h2>
+        <Reveal className="rounded-3xl bg-ink px-8 py-20 text-center text-highlight md:py-28">
+          <h2 className="font-display text-6xl md:text-8xl">Fix it once. Fix it right.</h2>
           <p className="mx-auto mt-4 max-w-md opacity-80">See how FixTrust works, or start comparing professionals now.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link to="/technicians" className="rounded-full bg-background px-6 py-3 text-sm font-medium text-foreground transition hover:opacity-90 active:scale-95">Find a pro</Link>
-            <Link to="/how-it-works" className="rounded-full border border-primary-foreground/40 px-6 py-3 text-sm font-medium transition hover:bg-primary-foreground/10">How it works</Link>
+            <Link to="/technicians" className="rounded-full bg-highlight px-6 py-3 text-sm font-medium text-highlight-foreground transition hover:opacity-90 active:scale-95">Find a pro</Link>
+            <Link to="/how-it-works" className="rounded-full border border-highlight/40 px-6 py-3 text-sm font-medium transition hover:bg-highlight/10">How it works</Link>
           </div>
         </Reveal>
       </section>
