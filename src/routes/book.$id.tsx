@@ -43,8 +43,8 @@ function Page() {
 
   const next = () => {
     const e: Record<string, string> = {};
-    if (step === 0 && problem.trim().length < 5) e.problem = "Describe the problem in a few words";
-    if (step === 1) { if (!date) e.date = "Pick a date"; if (!slot) e.slot = "Pick a time slot"; }
+    if (step === 0 && problem.trim().length < 5) e["problem"] = "Describe the problem in a few words";
+    if (step === 1) { if (!date) e["date"] = "Pick a date"; if (!slot) e["slot"] = "Pick a time slot"; }
     if (step === 2) {
       const r = details.safeParse(form);
       if (!r.success) r.error.issues.forEach((i) => { e[String(i.path[0])] = i.message; });
