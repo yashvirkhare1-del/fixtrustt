@@ -77,7 +77,7 @@ function Index() {
         </form>
       </section>
 
-      <div className="mt-28 -rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div>
+      <div className="mt-28 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
 
       <section className="mx-auto max-w-6xl px-6 pt-28">
         <Reveal><h2 className="font-display text-4xl md:text-5xl">What needs fixing?</h2></Reveal>
