@@ -5,13 +5,13 @@ import hero from "@/assets/hero.jpg";
 import workbench from "@/assets/workbench.jpg";
 import { Button } from "@/components/ui/button";
 import { Offers } from "@/components/site/Offers";
-import { ExpandingImage, Parallax, ScrollText, SpotlightCard, SplitText, TextShuffle, ScrollStack } from "@/components/site/Effects";
+import { ExpandingImage, ScrollText, SpotlightCard, SplitText, TextShuffle, ScrollStack } from "@/components/site/Effects";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
 import { categories, technicians } from "@/lib/data";
 
-const heroPhoto = "https://images.pexels.com/photos/38190070/pexels-photo-38190070.jpeg?auto=compress&cs=tinysrgb&h=1200&w=900";
+const heroPhoto = "https://images.pexels.com/photos/37727767/pexels-photo-37727767.jpeg?auto=compress&cs=tinysrgb&h=1400&w=1000";
 
 const categoryPhotos: Record<string, string> = {
   appliance: "https://images.pexels.com/photos/38264271/pexels-photo-38264271.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
@@ -21,6 +21,13 @@ const categoryPhotos: Record<string, string> = {
   carpentry: "https://images.pexels.com/photos/6790097/pexels-photo-6790097.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
   installation: "https://images.pexels.com/photos/37174868/pexels-photo-37174868.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
 };
+
+const stats = [
+  { num: "6", label: "Service categories" },
+  { num: "3,200+", label: "Sample jobs completed" },
+  { num: "4.8★", label: "Average sample rating" },
+  { num: "100%", label: "Itemized estimates" },
+] as const;
 
 const featuredServices = [
   { slug: "appliance", name: "Appliance repair", blurb: "Washers, fridges, microwaves — diagnosed and fixed.", span: "md:col-span-2 md:row-span-2", img: "h-56 md:h-full" },
@@ -59,40 +66,48 @@ function Index() {
 
   return (
     <>
-      {/* ── Premium editorial hero ── */}
-      <section className="relative overflow-hidden">
-        <div className="absolute right-0 top-1/4 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pb-28 pt-20 lg:grid-cols-[1.15fr_1fr] lg:pt-32">
-          <div>
+      {/* ── Cinematic full-bleed hero ── */}
+      <section className="cinema-hero">
+        <img src={heroPhoto} alt="Repair technician focused on precision work" fetchPriority="high" width={1000} height={1400} className="cinema-hero-img" />
+        <div className="cinema-hero-overlay" />
+        <div className="absolute inset-y-0 left-0 hidden w-1/3 cinema-hero-side lg:block" />
+
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-16 pt-32">
+          <div className="max-w-3xl">
             <span className="hero-badge animate-rise">Home repair, reconsidered</span>
-            <SplitText text="Repair professionals you can actually trust." highlight="actually" delay={200} className="mt-7 font-display text-5xl leading-[0.9] sm:text-6xl lg:text-[6.5rem]" />
-            <p className="mt-7 max-w-lg animate-rise text-lg leading-relaxed text-muted-foreground" style={{ animationDelay: "750ms" }}>
+            <SplitText text="Repair professionals you can actually trust." highlight="actually" delay={300} className="mt-6 font-display text-[3.5rem] leading-[0.85] sm:text-7xl lg:text-[8rem]" />
+            <p className="mt-8 max-w-xl animate-rise text-lg leading-relaxed text-muted-foreground" style={{ animationDelay: "900ms" }}>
               Compare local pros by honest prices, real experience and a record of every job done.
             </p>
-            <div className="mt-9 flex animate-rise flex-wrap items-center gap-3" style={{ animationDelay: "900ms" }}>
+            <div className="mt-9 flex animate-rise flex-wrap items-center gap-3" style={{ animationDelay: "1050ms" }}>
               <Link to="/technicians" className="btn-premium btn-premium-primary">Find a professional <ArrowRight className="size-4" /></Link>
-              <Link to="/estimate" className="btn-premium border border-border bg-card text-foreground transition hover:border-primary/40 hover:bg-muted">Estimate a repair</Link>
-            </div>
-            <div className="mt-10 flex animate-rise items-center gap-6 text-sm text-muted-foreground" style={{ animationDelay: "1050ms" }}>
-              <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-primary" />Transparent pricing</span>
-              <span className="flex items-center gap-2"><ReceiptText className="size-4 text-primary" />Itemized estimates</span>
-              <span className="hidden items-center gap-2 sm:flex"><FolderClock className="size-4 text-primary" />Repair records</span>
+              <Link to="/estimate" className="btn-premium border border-border bg-card/80 backdrop-blur-sm text-foreground transition hover:border-primary/40 hover:bg-muted">Estimate a repair</Link>
             </div>
           </div>
-          <div className="relative min-w-0 animate-rise" style={{ animationDelay: "300ms" }}>
-            <Parallax className="overflow-hidden rounded-[1.75rem]" speed={0.1}>
-              <img src={heroPhoto} alt="Repair technician examining an appliance" width={900} height={1200} fetchPriority="high" className="hero-photo aspect-[4/5] w-full object-cover" />
-            </Parallax>
-            <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-ink/10" />
-            <Parallax speed={-0.06} className="pointer-events-none absolute -bottom-6 right-4">
-              <span className="inline-flex items-center gap-2 rounded-xl border border-ink bg-highlight px-4 py-3 text-sm font-semibold text-highlight-foreground shadow-lg"><ShieldCheck className="size-5" />Clear estimates. No surprises.</span>
-            </Parallax>
-            <div className="pointer-events-none absolute -left-4 top-1/3 hidden rotate-[-90deg] text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground lg:block">FixTrust · 2026</div>
+
+          {/* Scroll indicator */}
+          <div className="mt-12 flex animate-rise items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted-foreground" style={{ animationDelay: "1200ms" }}>
+            <span className="h-px w-12 bg-muted-foreground/40" />
+            Scroll to explore
           </div>
         </div>
+      </section>
 
-        {/* ── Refined search bar ── */}
-        <form onSubmit={search} className="relative mx-auto -mt-10 max-w-7xl animate-rise px-6" style={{ animationDelay: "1100ms" }}>
+      {/* ── Stats strip ── */}
+      <section className="mx-auto max-w-7xl px-6">
+        <Reveal className="stats-strip rounded-2xl bg-card">
+          {stats.map((s) => (
+            <div key={s.label}>
+              <p className="font-display text-4xl text-primary md:text-5xl">{s.num}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{s.label}</p>
+            </div>
+          ))}
+        </Reveal>
+      </section>
+
+      {/* ── Search bar ── */}
+      <section className="mx-auto max-w-7xl px-6 pt-12">
+        <form onSubmit={search} className="animate-rise">
           <div className="grid gap-2 rounded-2xl border border-border bg-card p-2.5 shadow-[0_24px_60px_-30px_var(--ink)] md:grid-cols-[1fr_1fr_1.4fr_auto]">
             <input aria-label="Location" value={loc} onChange={(e) => setLoc(e.target.value)} maxLength={60} placeholder="Your area" className="rounded-xl bg-muted/40 px-4 py-3.5 text-sm outline-none transition focus:bg-muted" />
             <select aria-label="Category" value={cat} onChange={(e) => setCat(e.target.value)} className="rounded-xl bg-muted/40 px-4 py-3.5 text-sm outline-none transition focus:bg-muted">
@@ -108,7 +123,7 @@ function Index() {
         </form>
       </section>
 
-      <div className="mt-32 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
+      <div className="mt-20 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
 
       {/* ── Redesigned service cards — bento grid with glare hover ── */}
       <section className="mx-auto max-w-7xl px-6 pt-32">
