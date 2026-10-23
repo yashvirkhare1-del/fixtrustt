@@ -207,9 +207,9 @@ button:active { transform: scale(.98); }
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    color-mix(in oklab, var(--primary) 14%, transparent) 0%,
-    transparent 60%
+    600px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in oklab, var(--primary) 18%, transparent) 0%,
+    transparent 70%
   );
   opacity: 0;
   transition: opacity .35s ease;
@@ -218,6 +218,82 @@ button:active { transform: scale(.98); }
 }
 .spotlight-card:hover::before { opacity: 1; }
 .spotlight-card > * { position: relative; z-index: 1; }
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  transition: border-color .3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.spotlight-card:hover::after { border-color: color-mix(in oklab, var(--primary) 25%, transparent); }
+
+/* ── Service card icon circle ── */
+.svc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: color-mix(in oklab, var(--primary) 8%, var(--card));
+  border: 1px solid color-mix(in oklab, var(--primary) 12%, transparent);
+  transition: background .3s, border-color .3s, transform .3s;
+}
+.spotlight-card:hover .svc-icon {
+  background: color-mix(in oklab, var(--primary) 14%, var(--card));
+  border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+}
+
+/* ── Premium button ── */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border-radius: 9999px;
+  font-size: .875rem;
+  font-weight: 600;
+  padding: .875rem 1.75rem;
+  transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .25s, background .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-premium:active { transform: scale(.96); }
+.btn-premium-primary {
+  background: var(--ink);
+  color: var(--highlight);
+  box-shadow: 0 8px 24px -12px color-mix(in oklab, var(--ink) 60%, transparent);
+}
+.btn-premium-primary:hover {
+  box-shadow: 0 12px 32px -10px color-mix(in oklab, var(--ink) 55%, transparent);
+  transform: translateY(-2px);
+}
+
+/* ── Hero kicker badge ── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .375rem .875rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--primary) 20%, transparent);
+  background: color-mix(in oklab, var(--primary) 5%, var(--card));
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.hero-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--primary);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
 
 /* ── Split Text / Blur Text ── */
 @keyframes blur-in {
@@ -273,5 +349,7 @@ button:active { transform: scale(.98); }
   .expanding-image { clip-path: none !important; }
   .lift:hover { transform: none; }
   .spotlight-card::before { display: none; }
+  .spotlight-card::after { display: none; }
   .glare-hover::after { display: none; }
+  .hero-badge::before { animation: none; }
 }

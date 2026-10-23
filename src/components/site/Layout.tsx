@@ -23,9 +23,9 @@ export function Header() {
   }, []);
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? "border-b border-border bg-background/85 backdrop-blur" : "bg-transparent"}`}>
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" aria-label="FixTrust home"><Brand /></Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
@@ -34,7 +34,7 @@ export function Header() {
             {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
             <span className="hidden sm:inline">{soundOn ? "Sound on" : "Sound off"}</span>
           </button>
-          <Button asChild className="rounded-full bg-highlight px-5 text-highlight-foreground hover:bg-highlight/90"><Link to="/technicians">Book a repair</Link></Button>
+          <Button asChild className="rounded-full bg-ink px-5 text-highlight hover:bg-ink/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -60,7 +60,7 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="mt-32 border-t border-border">
-      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
           <Link to="/" aria-label="FixTrust home"><Brand /></Link>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">Transparent pricing, real experience and lasting repair records for every home.</p>
@@ -74,7 +74,7 @@ export function Footer() {
           <p className="mt-2 leading-relaxed">A student concept. All professionals, reviews and prices are illustrative samples. No real bookings or payments.</p>
         </div>
       </div>
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 pb-10 text-xs text-muted-foreground">
+      <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 pb-10 text-xs text-muted-foreground">
         <p>© 2026 FixTrust concept</p>
         <p>
           Photo:{" "}
