@@ -9,6 +9,8 @@ export const Route = createFileRoute("/my-repairs")({
       { name: "description", content: "An illustrative dashboard of appliance and repair records." },
       { property: "og:title", content: "My repairs — FixTrust" },
       { property: "og:description", content: "Every repair, part and warranty in one place." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,

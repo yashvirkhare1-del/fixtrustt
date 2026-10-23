@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Brand } from "./Brand";
 
 const nav = [
   { to: "/technicians", label: "Find a pro" },
@@ -19,18 +21,18 @@ export function Header() {
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? "border-b border-border bg-background/85 backdrop-blur" : "bg-transparent"}`}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Link to="/" className="text-lg font-semibold tracking-tight">Fix<span className="text-primary">Trust</span></Link>
+        <Link to="/" aria-label="FixTrust home"><Brand /></Link>
         <nav className="hidden items-center gap-8 md:flex">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} className="text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
+            <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
-          <Link to="/technicians" className="rounded-full bg-highlight px-5 py-2.5 text-sm font-semibold text-highlight-foreground transition hover:opacity-90 active:scale-95">Book a repair</Link>
+          <Button asChild className="rounded-full bg-highlight px-5 text-highlight-foreground hover:bg-highlight/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
-        <button className="md:hidden" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
+        <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        </Button>
       </div>
-      <div className={`grid overflow-hidden border-border bg-background transition-all duration-300 md:hidden ${open ? "grid-rows-[1fr] border-b" : "grid-rows-[0fr]"}`}>
+      <div id="mobile-nav" inert={!open} className={`grid overflow-hidden border-border bg-background transition-all duration-300 md:hidden ${open ? "grid-rows-[1fr] border-b" : "grid-rows-[0fr]"}`}>
         <div className="min-h-0">
           <div className="flex flex-col gap-4 px-6 pb-6">
             {nav.map((n) => <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-base">{n.label}</Link>)}
@@ -46,7 +48,7 @@ export function Footer() {
     <footer className="mt-32 border-t border-border">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
-          <p className="text-lg font-semibold">Fix<span className="text-primary">Trust</span></p>
+          <Link to="/" aria-label="FixTrust home"><Brand /></Link>
           <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">Transparent pricing, real experience and lasting repair records for every home.</p>
         </div>
         <div className="flex flex-col gap-2 text-sm">
@@ -66,7 +68,7 @@ export function Footer() {
 export function Intro() {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    if (sessionStorage.getItem("ft-intro")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || sessionStorage.getItem("ft-intro")) return;
     sessionStorage.setItem("ft-intro", "1");
     setShow(true);
     const t = setTimeout(() => setShow(false), 1700);
@@ -74,7 +76,7 @@ export function Intro() {
   }, []);
   if (!show) return null;
   return (
-    <div aria-hidden className="fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-highlight text-highlight-foreground">
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-highlight text-highlight-foreground">
       <p className="font-display text-6xl font-black uppercase md:text-8xl">Fix<span className="opacity-60">Trust</span></p>
       <div className="mt-6 h-1 w-48 overflow-hidden rounded-full bg-highlight-foreground/15"><div className="h-full animate-bar bg-highlight-foreground" /></div>
       <p className="absolute bottom-10 text-sm font-semibold uppercase tracking-widest">Loading trust</p>

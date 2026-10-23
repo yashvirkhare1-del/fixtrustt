@@ -16,6 +16,8 @@ export const Route = createFileRoute("/book/$id")({
       { name: "description", content: "A simulated booking flow for the FixTrust prototype." },
       { property: "og:title", content: "Book a demo visit — FixTrust" },
       { property: "og:description", content: "Try the FixTrust booking experience." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

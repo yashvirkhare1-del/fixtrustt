@@ -2,6 +2,10 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { Search, X, WashingMachine, Zap, Droplets, Tv, Hammer, Wrench, ReceiptText, ShieldCheck, FolderClock, ArrowRight } from "lucide-react";
 import hero from "@/assets/hero.jpg";
+import workbench from "@/assets/workbench.jpg";
+import { Button } from "@/components/ui/button";
+import { Offers } from "@/components/site/Offers";
+import { ExpandingImage, Parallax, ScrollText } from "@/components/site/Effects";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
@@ -10,11 +14,15 @@ import { categories, technicians } from "@/lib/data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FixTrust — Repair professionals you can trust" },
-      { name: "description", content: "Find local repair pros with transparent pricing, real experience, reviews and lasting repair records." },
-      { property: "og:title", content: "FixTrust — Repair professionals you can trust" },
-      { property: "og:description", content: "Transparent pricing, real experience and lasting repair records for every home repair." },
+      { title: "FixTrust | Trusted Local Repair Services" },
+      { name: "description", content: "Find local repair professionals, compare transparent estimates, book services, and keep track of your repair history." },
+      { property: "og:title", content: "FixTrust | Trusted Local Repair Services" },
+      { property: "og:description", content: "Find local repair professionals, compare transparent estimates, book services, and keep track of your repair history." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://fixtrustt.lovable.app/" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://fixtrustt.lovable.app/" }],
   }),
   component: Index,
 });
@@ -36,11 +44,10 @@ function Index() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute -left-32 top-10 size-[28rem] animate-drift rounded-full bg-accent blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 md:grid-cols-[1.1fr_1fr] md:pt-24">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 lg:grid-cols-[1.1fr_1fr] lg:pt-24">
           <div>
             <p className="animate-rise text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
-            <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[6.5rem]">
+            <h1 className="mt-6 font-display text-6xl leading-[0.9] lg:text-[6.5rem]">
               {words.map((w, i) => (
                 <span key={i} className={`inline-block animate-rise ${w === "actually" ? "rounded-md bg-highlight px-2 text-highlight-foreground" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
               ))}
@@ -49,8 +56,9 @@ function Index() {
               Compare local pros by honest prices, real experience and a record of every job done.
             </p>
           </div>
-          <div className="animate-rise overflow-hidden rounded-3xl" style={{ animationDelay: "300ms" }}>
-            <img src={hero} alt="Repair technician fixing a washing machine" width={1280} height={1024} className="aspect-[5/4] w-full object-cover" />
+          <div className="relative min-w-0 animate-rise" style={{ animationDelay: "200ms" }}>
+            <Parallax className="overflow-hidden rounded-3xl" speed={0.1}><img src={hero} alt="Repair technician fixing a washing machine" width={1280} height={1024} fetchPriority="high" className="hero-photo aspect-[5/4] w-full object-cover" /></Parallax>
+            <Parallax speed={-0.06} className="pointer-events-none absolute -bottom-5 right-4"><span className="inline-flex items-center gap-2 rounded-md border border-ink bg-highlight px-4 py-3 text-sm font-semibold text-highlight-foreground"><ShieldCheck className="size-5" />Clear estimates. No surprises.</span></Parallax>
           </div>
         </div>
         <form onSubmit={search} className="relative mx-auto -mt-8 max-w-6xl animate-rise px-6" style={{ animationDelay: "850ms" }}>
@@ -62,14 +70,14 @@ function Index() {
             </select>
             <div className="relative">
               <input aria-label="Problem" value={q} onChange={(e) => setQ(e.target.value)} maxLength={80} placeholder="Describe the problem, e.g. washer leaking" className="w-full rounded-xl bg-transparent px-4 py-3 pr-9 text-sm outline-none transition focus:bg-muted" />
-              {q && <button type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"><X className="size-4" /></button>}
+               {q && <Button variant="ghost" size="icon" type="button" aria-label="Clear" onClick={() => setQ("")} className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground"><X className="size-4" /></Button>}
             </div>
-            <button className="flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 active:scale-95"><Search className="size-4" />Search</button>
+             <Button type="submit" className="h-auto rounded-xl px-6 py-3"><Search className="size-4" />Search</Button>
           </div>
         </form>
       </section>
 
-      <div className="mt-28 -rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div>
+      <div className="mt-28 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
 
       <section className="mx-auto max-w-6xl px-6 pt-28">
         <Reveal><h2 className="font-display text-4xl md:text-5xl">What needs fixing?</h2></Reveal>
@@ -88,6 +96,8 @@ function Index() {
           })}
         </div>
       </section>
+
+      <Offers />
 
       <section className="mx-auto max-w-6xl px-6 pt-32">
         <Reveal className="flex items-end justify-between gap-6">
@@ -119,8 +129,15 @@ function Index() {
         </div>
       </section>
 
+      <section className="pt-28" aria-label="Trustworthy repairs">
+        <ExpandingImage src={workbench} alt="A technician's hands carefully repairing an electronic circuit board">
+          <h2 className="font-display text-4xl md:text-6xl">Care in every repair.</h2>
+          <ScrollText text="The right hands. The full picture. A repair you can understand." className="mt-3 max-w-2xl text-lg text-primary-foreground" />
+        </ExpandingImage>
+      </section>
+
       <section className="mx-auto max-w-6xl px-6 pt-32">
-        <Reveal className="rounded-3xl bg-ink px-8 py-20 text-center text-highlight md:py-28">
+        <Reveal className="bg-ink px-8 py-20 text-center text-highlight md:py-28">
           <h2 className="font-display text-6xl md:text-8xl">Fix it once. Fix it right.</h2>
           <p className="mx-auto mt-4 max-w-md opacity-80">See how FixTrust works, or start comparing professionals now.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
