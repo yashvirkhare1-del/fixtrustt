@@ -44,10 +44,10 @@ function Index() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 md:grid-cols-[1.1fr_1fr] md:pt-24">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 lg:grid-cols-[1.1fr_1fr] lg:pt-24">
           <div>
             <p className="animate-rise text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
-            <h1 className="mt-6 font-display text-6xl leading-[0.9] md:text-[6.5rem]">
+            <h1 className="mt-6 font-display text-6xl leading-[0.9] lg:text-[6.5rem]">
               {words.map((w, i) => (
                 <span key={i} className={`inline-block animate-rise ${w === "actually" ? "rounded-md bg-highlight px-2 text-highlight-foreground" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
               ))}
