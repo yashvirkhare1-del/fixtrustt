@@ -572,6 +572,114 @@ button:active { transform: scale(.98); }
   .stats-strip > div:nth-child(1), .stats-strip > div:nth-child(2) { border-bottom: 1px solid var(--color-border); }
 }
 
+/* ── Hero split layout ── */
+.hero-split {
+  position: relative;
+  overflow: hidden;
+}
+.hero-split-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-split-bg::before {
+  content: "";
+  position: absolute;
+  top: -10%; left: -5%;
+  width: 50%; height: 80%;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--primary) 8%, transparent) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.hero-split-bg::after {
+  content: "";
+  position: absolute;
+  bottom: -10%; right: -5%;
+  width: 40%; height: 60%;
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--accent) 10%, transparent) 0%, transparent 70%);
+  filter: blur(60px);
+}
+.dark .hero-split-bg::before {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--primary) 12%, transparent) 0%, transparent 70%);
+}
+.dark .hero-split-bg::after {
+  background: radial-gradient(ellipse, color-mix(in oklab, var(--accent) 14%, transparent) 0%, transparent 70%);
+}
+
+/* ── Floating hero cards ── */
+.float-card {
+  position: absolute;
+  z-index: 20;
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 36px -16px color-mix(in oklab, var(--ink) 40%, transparent);
+  animation: float-bob 6s ease-in-out infinite;
+}
+.float-card:nth-child(2) { animation-delay: -2s; animation-duration: 7s; }
+.float-card:nth-child(3) { animation-delay: -4s; animation-duration: 8s; }
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ── How it works steps ── */
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  position: relative;
+}
+.steps-row::before {
+  content: "";
+  position: absolute;
+  top: 2.5rem;
+  left: 16%; right: 16%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 30%, transparent), color-mix(in oklab, var(--primary) 30%, transparent), transparent);
+  z-index: 0;
+}
+.step-item {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 1rem;
+}
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: 2px solid color-mix(in oklab, var(--primary) 25%, transparent);
+  background: var(--color-card);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  transition: border-color .3s, box-shadow .3s;
+}
+.step-item:hover .step-num {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 6px color-mix(in oklab, var(--primary) 8%, transparent);
+}
+@media (max-width: 768px) {
+  .steps-row { grid-template-columns: 1fr; gap: 2rem; }
+  .steps-row::before { display: none; }
+}
+
+/* ── Section background variants ── */
+.section-muted {
+  background: color-mix(in oklab, var(--muted) 40%, transparent);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.dark .section-muted {
+  background: color-mix(in oklab, var(--card) 30%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .custom-cursor span { transition: none; }
@@ -589,4 +697,5 @@ button:active { transform: scale(.98); }
   .dark body::after { animation: none !important; }
   .cinema-hero-img { animation: none !important; transform: scale(1.06); }
   .tilt-card { transform: none !important; }
+  .float-card { animation: none !important; }
 }
