@@ -9,6 +9,8 @@ export const Route = createFileRoute("/how-it-works")({
       { name: "description", content: "Search, compare, book and keep a record — the FixTrust journey in four steps." },
       { property: "og:title", content: "How FixTrust works" },
       { property: "og:description", content: "From problem to lasting repair record in four steps." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,

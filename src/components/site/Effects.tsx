@@ -11,12 +11,12 @@ export function Cursor() {
       raf = requestAnimationFrame(() => {
         const el = dot.current;
         if (!el) return;
-        el.dataset.visible = "true";
-        el.dataset.active = String(e.target instanceof Element && !!e.target.closest("a,button,select,input,textarea,article"));
+        el.dataset["visible"] = "true";
+        el.dataset["active"] = String(e.target instanceof Element && !!e.target.closest("a,button,select,input,textarea,article"));
         el.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
       });
     };
-    const hide = () => { if (dot.current) dot.current.dataset.visible = "false"; };
+    const hide = () => { if (dot.current) dot.current.dataset["visible"] = "false"; };
     window.addEventListener("pointermove", move);
     document.addEventListener("pointerleave", hide);
     media.addEventListener("change", hide);

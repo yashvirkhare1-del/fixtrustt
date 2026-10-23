@@ -18,6 +18,8 @@ export const Route = createFileRoute("/technicians/")({
       { name: "description", content: "Search and filter sample repair professionals by service, area and problem." },
       { property: "og:title", content: "Find a repair professional — FixTrust" },
       { property: "og:description", content: "Compare pros by pricing, experience and reviews." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Page,
