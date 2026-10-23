@@ -5,7 +5,7 @@ import hero from "@/assets/hero.jpg";
 import workbench from "@/assets/workbench.jpg";
 import { Button } from "@/components/ui/button";
 import { Offers } from "@/components/site/Offers";
-import { ExpandingImage, ScrollText, SpotlightCard, SplitText, TextShuffle, ScrollStack } from "@/components/site/Effects";
+import { ExpandingImage, ScrollText, SpotlightCard, SplitText, TextShuffle, ScrollStack, TiltCard } from "@/components/site/Effects";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
@@ -140,7 +140,7 @@ function Index() {
             const photo = categoryPhotos[c.slug];
             return (
               <Reveal key={c.slug} delay={i * 80} className={c.span}>
-                <SpotlightCard className="h-full rounded-[1.25rem]">
+                <TiltCard className="h-full rounded-[1.25rem]" max={6}>
                   <Link to="/technicians" search={{ category: c.slug }} className="svc-bento glare-hover group flex h-full flex-col">
                     <div className={`svc-bento-img relative ${c.img} w-full`}>
                       <img src={photo} alt={c.name} loading="lazy" decoding="async" className="size-full object-cover" />
@@ -159,7 +159,7 @@ function Index() {
                       <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
                     </div>
                   </Link>
-                </SpotlightCard>
+                </TiltCard>
               </Reveal>
             );
           })}

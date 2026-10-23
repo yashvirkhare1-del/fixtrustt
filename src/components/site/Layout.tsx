@@ -112,8 +112,8 @@ export function Intro() {
   }, []);
   if (!show) return null;
   return (
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-highlight text-highlight-foreground">
-      <p className="font-display text-6xl font-black uppercase md:text-8xl">Fix<span className="opacity-60">Trust</span></p>
+      <div aria-hidden className="pointer-events-none fixed inset-0 z-50 flex animate-loader flex-col items-center justify-center bg-ink text-primary-foreground">
+      <p className="font-display text-6xl font-black uppercase md:text-8xl">Fix<span className="text-highlight">Trust</span></p>
       <div className="mt-6 h-1 w-48 overflow-hidden rounded-full bg-highlight-foreground/15"><div className="h-full animate-bar bg-highlight-foreground" /></div>
       <p className="absolute bottom-10 text-sm font-semibold uppercase tracking-widest">Loading trust</p>
     </div>
