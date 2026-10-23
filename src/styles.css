@@ -197,10 +197,9 @@ button:active { transform: scale(.98); }
   .offer-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 0 1.5rem; }
   .offer-grid > div { flex: 0 0 88%; scroll-snap-align: start; height: auto; }
 }
-@media (hover: none), (pointer: coarse) { .custom-cursor { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .custom-cursor { display: none; }
+  .custom-cursor span { transition: none; }
   .parallax-layer { transform: none !important; }
   .scroll-word { opacity: 1 !important; }
   .expanding-image { clip-path: none !important; }
