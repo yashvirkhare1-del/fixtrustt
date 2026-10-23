@@ -14,13 +14,20 @@ import { categories, technicians } from "@/lib/data";
 const heroPhoto = "https://images.pexels.com/photos/38190070/pexels-photo-38190070.jpeg?auto=compress&cs=tinysrgb&h=1200&w=900";
 
 const categoryPhotos: Record<string, string> = {
-  appliance: "https://images.pexels.com/photos/31725399/pexels-photo-31725399.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
-  electrical: "https://images.pexels.com/photos/7285965/pexels-photo-7285965.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
-  plumbing: "https://images.pexels.com/photos/6419128/pexels-photo-6419128.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  appliance: "https://images.pexels.com/photos/38264271/pexels-photo-38264271.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
+  electrical: "https://images.pexels.com/photos/27928762/pexels-photo-27928762.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
+  plumbing: "https://images.pexels.com/photos/6419128/pexels-photo-6419128.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
   electronics: "https://images.pexels.com/photos/35290689/pexels-photo-35290689.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
-  carpentry: "https://images.pexels.com/photos/1094767/pexels-photo-1094767.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  carpentry: "https://images.pexels.com/photos/6790097/pexels-photo-6790097.jpeg?auto=compress&cs=tinysrgb&h=500&w=800",
   installation: "https://images.pexels.com/photos/37174868/pexels-photo-37174868.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
 };
+
+const featuredServices = [
+  { slug: "appliance", name: "Appliance repair", blurb: "Washers, fridges, microwaves — diagnosed and fixed.", span: "md:col-span-2 md:row-span-2", img: "h-56 md:h-full" },
+  { slug: "electrical", name: "Electrical work", blurb: "Wiring, switches, MCB panels.", span: "", img: "h-36" },
+  { slug: "plumbing", name: "Plumbing", blurb: "Leaks, taps, drainage.", span: "", img: "h-36" },
+  { slug: "carpentry", name: "Carpentry", blurb: "Doors, furniture, shelving.", span: "md:col-span-2", img: "h-36" },
+] as const;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -103,38 +110,58 @@ function Index() {
 
       <div className="mt-32 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
 
-      {/* ── Redesigned service cards with photos ── */}
+      {/* ── Redesigned service cards — bento grid with glare hover ── */}
       <section className="mx-auto max-w-7xl px-6 pt-32">
         <Reveal className="flex items-end justify-between gap-6">
           <div>
             <TextShuffle text="What needs fixing?" delay={100} className="font-display text-4xl md:text-5xl" />
-            <p className="mt-3 max-w-md text-muted-foreground">Six common services. One trusted network of local professionals.</p>
+            <p className="mt-3 max-w-md text-muted-foreground">Four common services. One trusted network of local professionals.</p>
           </div>
           <Link to="/technicians" className="hidden items-center gap-1 text-sm font-medium text-primary transition hover:gap-2 md:flex">View all <ArrowRight className="size-4" /></Link>
         </Reveal>
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {categories.map((c, i) => {
+        <div className="mt-14 grid auto-rows-[200px] grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+          {featuredServices.map((c, i) => {
             const Icon = icons[c.slug as keyof typeof icons];
             const photo = categoryPhotos[c.slug];
             return (
-              <Reveal key={c.slug} delay={i * 70}>
-                <SpotlightCard className="h-full rounded-2xl">
-                  <Link to="/technicians" search={{ category: c.slug }} className="lift group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card">
-                    <div className="relative h-40 overflow-hidden">
-                      <img src={photo} alt={c.name} loading="lazy" decoding="async" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-                      <div className="absolute bottom-3 left-3">
-                        <div className="svc-icon">
+              <Reveal key={c.slug} delay={i * 80} className={c.span}>
+                <SpotlightCard className="h-full rounded-[1.25rem]">
+                  <Link to="/technicians" search={{ category: c.slug }} className="svc-bento glare-hover group flex h-full flex-col">
+                    <div className={`svc-bento-img relative ${c.img} w-full`}>
+                      <img src={photo} alt={c.name} loading="lazy" decoding="async" className="size-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+                      <div className="absolute bottom-3 left-4 z-[3]">
+                        <div className="svc-icon !w-11 !h-11 rounded-xl">
                           <Icon className="size-5 text-primary transition-transform duration-300 group-hover:scale-110" />
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-1 flex-col p-5">
+                    <div className="flex flex-1 flex-col justify-end p-5">
                       <div className="flex items-center justify-between">
-                        <p className="text-lg font-semibold">{c.name}</p>
-                        <ArrowUpRight className="size-5 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                        <p className="text-xl font-semibold">{c.name}</p>
+                        <ArrowUpRight className="size-5 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                       </div>
                       <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                    </div>
+                  </Link>
+                </SpotlightCard>
+              </Reveal>
+            );
+          })}
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {categories.filter((c) => !featuredServices.some((f) => f.slug === c.slug)).map((c, i) => {
+            const Icon = icons[c.slug as keyof typeof icons];
+            return (
+              <Reveal key={c.slug} delay={i * 60}>
+                <SpotlightCard className="rounded-[1.25rem]">
+                  <Link to="/technicians" search={{ category: c.slug }} className="svc-bento glare-hover group flex items-center gap-4 p-5">
+                    <div className="svc-icon shrink-0">
+                      <Icon className="size-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold">{c.name}</p>
+                      <p className="truncate text-xs text-muted-foreground">{c.blurb}</p>
                     </div>
                   </Link>
                 </SpotlightCard>
