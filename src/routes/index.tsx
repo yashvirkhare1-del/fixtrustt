@@ -97,6 +97,25 @@ function Index() {
         </div>
       </section>
 
+      <section aria-labelledby="estimate-heading" className="mx-auto max-w-6xl px-6 pt-28">
+        <Reveal className="grid overflow-hidden rounded-3xl bg-ink text-primary-foreground md:grid-cols-[1.1fr_1fr]">
+          <div className="p-8 md:p-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-highlight">Transparent cost estimator</p>
+            <h2 id="estimate-heading" className="mt-4 font-display text-4xl leading-[0.95] md:text-6xl">Know the cost before the knock.</h2>
+            <p className="mt-4 max-w-md leading-relaxed opacity-75">See indicative inspection, labour and parts costs for common jobs, shown separately so nothing is hidden.</p>
+            <Link to="/estimate" className="mt-8 inline-flex items-center gap-2 rounded-full bg-highlight px-6 py-3 text-sm font-medium text-highlight-foreground transition hover:opacity-90">Estimate a repair <ArrowRight className="size-4" /></Link>
+          </div>
+          <div className="flex flex-col justify-center gap-3 border-t border-primary-foreground/10 p-8 md:border-l md:border-t-0 md:p-12">
+            <p className="text-sm opacity-70">Example: leaking tap</p>
+            {[["Inspection visit", "₹199"], ["Labour", "₹200 – ₹350"], ["Parts", "₹250 – ₹900"]].map(([k, v]) => (
+              <div key={k} className="flex justify-between border-b border-primary-foreground/10 pb-3 text-sm"><span className="opacity-80">{k}</span><span>{v}</span></div>
+            ))}
+            <div className="flex items-end justify-between pt-1"><span className="text-sm opacity-80">Estimated range</span><span className="font-display text-3xl text-highlight">₹649 – ₹1,449</span></div>
+            <p className="text-xs opacity-60">Sample figures. Not a guaranteed final price.</p>
+          </div>
+        </Reveal>
+      </section>
+
       <Offers />
 
       <section className="mx-auto max-w-6xl px-6 pt-32">

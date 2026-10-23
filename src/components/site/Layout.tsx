@@ -6,6 +6,7 @@ import { Brand } from "./Brand";
 
 const nav = [
   { to: "/technicians", label: "Find a pro" },
+  { to: "/estimate", label: "Cost estimator" },
   { to: "/how-it-works", label: "How it works" },
   { to: "/my-repairs", label: "My repairs" },
 ] as const;
@@ -26,6 +27,7 @@ export function Header() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
+          <Link to="/" hash="offers" className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground">Offers</Link>
           <Button asChild className="rounded-full bg-highlight px-5 text-highlight-foreground hover:bg-highlight/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
@@ -36,6 +38,8 @@ export function Header() {
         <div className="min-h-0">
           <div className="flex flex-col gap-4 px-6 pb-6">
             {nav.map((n) => <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-base">{n.label}</Link>)}
+            <Link to="/" hash="offers" onClick={() => setOpen(false)} className="text-base">Offers</Link>
+            <Link to="/technicians" onClick={() => setOpen(false)} className="mt-2 rounded-full bg-highlight px-5 py-3 text-center text-sm font-medium text-highlight-foreground">Book a repair</Link>
           </div>
         </div>
       </div>
