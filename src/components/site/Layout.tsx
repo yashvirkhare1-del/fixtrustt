@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Brand } from "./Brand";
+import { useSoundEnabled, toggleSound, playClick } from "@/lib/sound";
 
 const nav = [
   { to: "/technicians", label: "Find a pro" },
@@ -14,6 +15,7 @@ const nav = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const soundOn = useSoundEnabled();
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 10);
     f(); window.addEventListener("scroll", f, { passive: true });
@@ -28,6 +30,10 @@ export function Header() {
             <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
           <Link to="/" hash="offers" className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground">Offers</Link>
+          <button type="button" className="sound-toggle" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
+            {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
+            <span className="hidden sm:inline">{soundOn ? "Sound on" : "Sound off"}</span>
+          </button>
           <Button asChild className="rounded-full bg-highlight px-5 text-highlight-foreground hover:bg-highlight/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
@@ -39,6 +45,10 @@ export function Header() {
           <div className="flex flex-col gap-4 px-6 pb-6">
             {nav.map((n) => <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-base">{n.label}</Link>)}
             <Link to="/" hash="offers" onClick={() => setOpen(false)} className="text-base">Offers</Link>
+            <button type="button" className="sound-toggle self-start" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
+              {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
+              {soundOn ? "Sound on" : "Sound off"}
+            </button>
             <Link to="/technicians" onClick={() => setOpen(false)} className="mt-2 rounded-full bg-highlight px-5 py-3 text-center text-sm font-medium text-highlight-foreground">Book a repair</Link>
           </div>
         </div>

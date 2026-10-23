@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Star, ShieldCheck } from "lucide-react";
 import { categoryName, inr, type Technician } from "@/lib/data";
+import { SpotlightCard } from "./Effects";
 
 export function TechCard({ t }: { t: Technician }) {
   return (
+    <SpotlightCard className="rounded-2xl">
     <Link to="/technicians/$id" params={{ id: t.id }} className="lift group block rounded-2xl border border-border bg-card p-6">
       <div className="flex items-start justify-between">
         <div className="flex size-12 items-center justify-center rounded-full bg-accent font-medium text-accent-foreground">{t.initials}</div>
@@ -23,5 +25,6 @@ export function TechCard({ t }: { t: Technician }) {
         <span>Visit <strong>{inr(t.visitCharge)}</strong></span>
       </div>
     </Link>
+    </SpotlightCard>
   );
 }

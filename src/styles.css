@@ -197,6 +197,74 @@ button:active { transform: scale(.98); }
   .offer-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 0 1.5rem; }
   .offer-grid > div { flex: 0 0 88%; scroll-snap-align: start; height: auto; }
 }
+/* ── Spotlight Card ── */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    color-mix(in oklab, var(--primary) 14%, transparent) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity .35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight-card:hover::before { opacity: 1; }
+.spotlight-card > * { position: relative; z-index: 1; }
+
+/* ── Split Text / Blur Text ── */
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(12px); transform: translateY(6px); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+@utility animate-blur-in {
+  animation: blur-in .7s cubic-bezier(.2,.7,.2,1) both;
+}
+
+/* ── Glare Hover ── */
+.glare-hover { position: relative; overflow: hidden; }
+.glare-hover::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    color-mix(in oklab, var(--primary) 8%, transparent) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  transition: left .6s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+  z-index: 1;
+}
+.glare-hover:hover::after { left: 125%; }
+
+/* ── Sound toggle ── */
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  padding: .375rem .625rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  font-size: .75rem;
+  color: var(--color-muted-foreground);
+  transition: border-color .2s, color .2s, background .2s;
+  cursor: pointer;
+}
+.sound-toggle:hover { border-color: color-mix(in oklab, var(--primary) 40%, var(--border)); color: var(--color-foreground); }
+.sound-toggle[data-on="true"] { border-color: var(--primary); color: var(--primary); background: color-mix(in oklab, var(--primary) 6%, var(--card)); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .custom-cursor span { transition: none; }
@@ -204,4 +272,6 @@ button:active { transform: scale(.98); }
   .scroll-word { opacity: 1 !important; }
   .expanding-image { clip-path: none !important; }
   .lift:hover { transform: none; }
+  .spotlight-card::before { display: none; }
+  .glare-hover::after { display: none; }
 }

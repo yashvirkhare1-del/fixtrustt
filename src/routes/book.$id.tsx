@@ -4,6 +4,7 @@ import { z } from "zod";
 import { ArrowLeft, Check, Copy, Loader2 } from "lucide-react";
 import { categoryName, estimateTotal, getTech, inr } from "@/lib/data";
 import { addBooking, makeRef } from "@/lib/bookings";
+import { playSuccess } from "@/lib/sound";
 
 export const Route = createFileRoute("/book/$id")({
   loader: ({ params }) => {
@@ -75,6 +76,7 @@ function Page() {
         addBooking({ ref, techId: t.id, techName: t.name, category: t.category, service, problem: problem.trim(), date, slot, name: form.name.trim(), visitCharge: t.visitCharge, createdAt: new Date().toISOString(), status: "Scheduled" });
         setLoading(false);
         setDoneRef(ref);
+        playSuccess();
         window.scrollTo({ top: 0 });
       }, 900);
       return;

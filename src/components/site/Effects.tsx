@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
 
 export function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
@@ -72,4 +72,36 @@ export function ExpandingImage({ src, alt, children }: { src: string; alt: strin
     <img src={src} alt={alt} loading="lazy" decoding="async" width={1536} height={1024} className="parallax-layer absolute inset-0 size-full object-cover" style={{ transform: `scale(${1.08 - t * 0.08})` }} />
     <div className="absolute inset-x-0 bottom-0 bg-ink/80 px-6 py-8 text-highlight md:px-12">{children}</div>
   </div>;
+}
+
+export function SpotlightCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--spot-x", `${((e.clientX - r.left) / r.width) * 100}%`);
+    el.style.setProperty("--spot-y", `${((e.clientY - r.top) / r.height) * 100}%`);
+  };
+  return <div ref={ref} onPointerMove={onMove} className={`spotlight-card ${className}`}>{children}</div>;
+}
+
+export function SplitText({ text, className = "", highlight = "", delay = 0 }: { text: string; className?: string; highlight?: string; delay?: number }) {
+  const words = text.split(" ");
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return (
+    <h1 className={className}>
+      {words.map((w, i) => {
+        const isHighlight = highlight && w.toLowerCase().includes(highlight.toLowerCase());
+        const style: CSSProperties = reduced ? {} : { animationDelay: `${delay + i * 80}ms` };
+        return (
+          <span
+            key={i}
+            className={`inline-block ${reduced ? "" : "animate-blur-in"} ${isHighlight ? "rounded-md bg-highlight px-2 text-highlight-foreground" : ""}`}
+            style={style}
+          >{w}&nbsp;</span>
+        );
+      })}
+    </h1>
+  );
 }

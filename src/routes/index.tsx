@@ -5,7 +5,7 @@ import hero from "@/assets/hero.jpg";
 import workbench from "@/assets/workbench.jpg";
 import { Button } from "@/components/ui/button";
 import { Offers } from "@/components/site/Offers";
-import { ExpandingImage, Parallax, ScrollText } from "@/components/site/Effects";
+import { ExpandingImage, Parallax, ScrollText, SpotlightCard, SplitText } from "@/components/site/Effects";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
@@ -34,8 +34,6 @@ function Index() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("");
   const [loc, setLoc] = useState("");
-  const words = "Repair professionals you can actually trust.".split(" ");
-
   const search = (e: FormEvent) => {
     e.preventDefault();
     navigate({ to: "/technicians", search: { q: q.trim().slice(0, 80) || undefined, category: cat || undefined, area: loc.trim().slice(0, 60) || undefined } });
@@ -47,11 +45,7 @@ function Index() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 pb-24 pt-16 lg:grid-cols-[1.1fr_1fr] lg:pt-24">
           <div>
             <p className="animate-rise text-sm font-medium uppercase tracking-[0.2em] text-primary">Home repair, reconsidered</p>
-            <h1 className="mt-6 font-display text-6xl leading-[0.9] lg:text-[6.5rem]">
-              {words.map((w, i) => (
-                <span key={i} className={`inline-block animate-rise ${w === "actually" ? "rounded-md bg-highlight px-2 text-highlight-foreground" : ""}`} style={{ animationDelay: `${150 + i * 80}ms` }}>{w}&nbsp;</span>
-              ))}
-            </h1>
+            <SplitText text="Repair professionals you can actually trust." highlight="actually" delay={150} className="mt-6 font-display text-6xl leading-[0.9] lg:text-[6.5rem]" />
             <p className="mt-6 max-w-lg animate-rise text-lg leading-relaxed text-muted-foreground" style={{ animationDelay: "700ms" }}>
               Compare local pros by honest prices, real experience and a record of every job done.
             </p>
@@ -86,11 +80,13 @@ function Index() {
             const Icon = icons[c.slug as keyof typeof icons];
             return (
               <Reveal key={c.slug} delay={i * 70}>
-                <Link to="/technicians" search={{ category: c.slug }} className="lift group block rounded-2xl border border-border bg-card p-6">
-                  <Icon className="size-6 text-primary transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" />
-                  <p className="mt-6 font-medium">{c.name}</p>
-                  <p className="text-sm text-muted-foreground">{c.blurb}</p>
-                </Link>
+                <SpotlightCard className="rounded-2xl">
+                  <Link to="/technicians" search={{ category: c.slug }} className="lift group block rounded-2xl border border-border bg-card p-6">
+                    <Icon className="size-6 text-primary transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" />
+                    <p className="mt-6 font-medium">{c.name}</p>
+                    <p className="text-sm text-muted-foreground">{c.blurb}</p>
+                  </Link>
+                </SpotlightCard>
               </Reveal>
             );
           })}
@@ -156,7 +152,7 @@ function Index() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 pt-32">
-        <Reveal className="bg-ink px-8 py-20 text-center text-highlight md:py-28">
+        <Reveal className="glare-hover bg-ink px-8 py-20 text-center text-highlight md:py-28">
           <h2 className="font-display text-6xl md:text-8xl">Fix it once. Fix it right.</h2>
           <p className="mx-auto mt-4 max-w-md opacity-80">See how FixTrust works, or start comparing professionals now.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
