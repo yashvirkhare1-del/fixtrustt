@@ -1,17 +1,26 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { Search, X, WashingMachine, Zap, Droplets, Tv, Hammer, Wrench, ReceiptText, ShieldCheck, FolderClock, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Search, X, WashingMachine, Zap, Droplets, Tv, Hammer, Wrench, ReceiptText, ShieldCheck, FolderClock, ArrowRight, ArrowUpRight, Sparkles } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import workbench from "@/assets/workbench.jpg";
 import { Button } from "@/components/ui/button";
 import { Offers } from "@/components/site/Offers";
-import { ExpandingImage, Parallax, ScrollText, SpotlightCard, SplitText } from "@/components/site/Effects";
+import { ExpandingImage, Parallax, ScrollText, SpotlightCard, SplitText, TextShuffle, ScrollStack } from "@/components/site/Effects";
 import { Reveal } from "@/components/site/Reveal";
 import { Marquee } from "@/components/site/Layout";
 import { TechCard } from "@/components/site/TechCard";
 import { categories, technicians } from "@/lib/data";
 
-const heroPhoto = "https://images.pexels.com/photos/38190070/pexels-photo-38190070.jpeg?auto=compress&cs=tinysrgb&h=1100&w=900";
+const heroPhoto = "https://images.pexels.com/photos/38190070/pexels-photo-38190070.jpeg?auto=compress&cs=tinysrgb&h=1200&w=900";
+
+const categoryPhotos: Record<string, string> = {
+  appliance: "https://images.pexels.com/photos/31725399/pexels-photo-31725399.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  electrical: "https://images.pexels.com/photos/7285965/pexels-photo-7285965.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  plumbing: "https://images.pexels.com/photos/6419128/pexels-photo-6419128.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  electronics: "https://images.pexels.com/photos/35290689/pexels-photo-35290689.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  carpentry: "https://images.pexels.com/photos/1094767/pexels-photo-1094767.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+  installation: "https://images.pexels.com/photos/37174868/pexels-photo-37174868.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,6 +54,7 @@ function Index() {
     <>
       {/* ── Premium editorial hero ── */}
       <section className="relative overflow-hidden">
+        <div className="absolute right-0 top-1/4 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pb-28 pt-20 lg:grid-cols-[1.15fr_1fr] lg:pt-32">
           <div>
             <span className="hero-badge animate-rise">Home repair, reconsidered</span>
@@ -56,20 +66,26 @@ function Index() {
               <Link to="/technicians" className="btn-premium btn-premium-primary">Find a professional <ArrowRight className="size-4" /></Link>
               <Link to="/estimate" className="btn-premium border border-border bg-card text-foreground transition hover:border-primary/40 hover:bg-muted">Estimate a repair</Link>
             </div>
+            <div className="mt-10 flex animate-rise items-center gap-6 text-sm text-muted-foreground" style={{ animationDelay: "1050ms" }}>
+              <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-primary" />Transparent pricing</span>
+              <span className="flex items-center gap-2"><ReceiptText className="size-4 text-primary" />Itemized estimates</span>
+              <span className="hidden items-center gap-2 sm:flex"><FolderClock className="size-4 text-primary" />Repair records</span>
+            </div>
           </div>
           <div className="relative min-w-0 animate-rise" style={{ animationDelay: "300ms" }}>
             <Parallax className="overflow-hidden rounded-[1.75rem]" speed={0.1}>
-              <img src={heroPhoto} alt="Repair technician examining an appliance" width={900} height={1100} fetchPriority="high" className="hero-photo aspect-[4/5] w-full object-cover" />
+              <img src={heroPhoto} alt="Repair technician examining an appliance" width={900} height={1200} fetchPriority="high" className="hero-photo aspect-[4/5] w-full object-cover" />
             </Parallax>
             <div className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-ink/10" />
             <Parallax speed={-0.06} className="pointer-events-none absolute -bottom-6 right-4">
               <span className="inline-flex items-center gap-2 rounded-xl border border-ink bg-highlight px-4 py-3 text-sm font-semibold text-highlight-foreground shadow-lg"><ShieldCheck className="size-5" />Clear estimates. No surprises.</span>
             </Parallax>
+            <div className="pointer-events-none absolute -left-4 top-1/3 hidden rotate-[-90deg] text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground lg:block">FixTrust · 2026</div>
           </div>
         </div>
 
         {/* ── Refined search bar ── */}
-        <form onSubmit={search} className="relative mx-auto -mt-10 max-w-7xl animate-rise px-6" style={{ animationDelay: "1000ms" }}>
+        <form onSubmit={search} className="relative mx-auto -mt-10 max-w-7xl animate-rise px-6" style={{ animationDelay: "1100ms" }}>
           <div className="grid gap-2 rounded-2xl border border-border bg-card p-2.5 shadow-[0_24px_60px_-30px_var(--ink)] md:grid-cols-[1fr_1fr_1.4fr_auto]">
             <input aria-label="Location" value={loc} onChange={(e) => setLoc(e.target.value)} maxLength={60} placeholder="Your area" className="rounded-xl bg-muted/40 px-4 py-3.5 text-sm outline-none transition focus:bg-muted" />
             <select aria-label="Category" value={cat} onChange={(e) => setCat(e.target.value)} className="rounded-xl bg-muted/40 px-4 py-3.5 text-sm outline-none transition focus:bg-muted">
@@ -87,30 +103,39 @@ function Index() {
 
       <div className="mt-32 overflow-hidden py-5"><div className="-rotate-1"><Marquee items={["Transparent pricing", "Real experience", "Honest reviews", "Repair records"]} /></div></div>
 
-      {/* ── Redesigned service cards ── */}
+      {/* ── Redesigned service cards with photos ── */}
       <section className="mx-auto max-w-7xl px-6 pt-32">
         <Reveal className="flex items-end justify-between gap-6">
           <div>
-            <h2 className="font-display text-4xl md:text-5xl">What needs fixing?</h2>
+            <TextShuffle text="What needs fixing?" delay={100} className="font-display text-4xl md:text-5xl" />
             <p className="mt-3 max-w-md text-muted-foreground">Six common services. One trusted network of local professionals.</p>
           </div>
           <Link to="/technicians" className="hidden items-center gap-1 text-sm font-medium text-primary transition hover:gap-2 md:flex">View all <ArrowRight className="size-4" /></Link>
         </Reveal>
-        <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-3">
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {categories.map((c, i) => {
             const Icon = icons[c.slug as keyof typeof icons];
+            const photo = categoryPhotos[c.slug];
             return (
               <Reveal key={c.slug} delay={i * 70}>
                 <SpotlightCard className="h-full rounded-2xl">
-                  <Link to="/technicians" search={{ category: c.slug }} className="lift group flex h-full flex-col rounded-2xl border border-border bg-card p-7">
-                    <div className="flex items-center justify-between">
-                      <div className="svc-icon">
-                        <Icon className="size-6 text-primary transition-transform duration-300 group-hover:scale-110" />
+                  <Link to="/technicians" search={{ category: c.slug }} className="lift group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card">
+                    <div className="relative h-40 overflow-hidden">
+                      <img src={photo} alt={c.name} loading="lazy" decoding="async" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3">
+                        <div className="svc-icon">
+                          <Icon className="size-5 text-primary transition-transform duration-300 group-hover:scale-110" />
+                        </div>
                       </div>
-                      <ArrowUpRight className="size-5 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                     </div>
-                    <p className="mt-7 text-lg font-semibold">{c.name}</p>
-                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="flex items-center justify-between">
+                        <p className="text-lg font-semibold">{c.name}</p>
+                        <ArrowUpRight className="size-5 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                      </div>
+                      <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                    </div>
                   </Link>
                 </SpotlightCard>
               </Reveal>
@@ -119,6 +144,7 @@ function Index() {
         </div>
       </section>
 
+      {/* ── Estimate CTA ── */}
       <section aria-labelledby="estimate-heading" className="mx-auto max-w-7xl px-6 pt-36">
         <Reveal className="grid overflow-hidden rounded-3xl bg-ink text-primary-foreground md:grid-cols-[1.1fr_1fr]">
           <div className="p-10 md:p-14">
@@ -140,6 +166,7 @@ function Index() {
 
       <Offers />
 
+      {/* ── Featured professionals ── */}
       <section className="mx-auto max-w-7xl px-6 pt-36">
         <Reveal className="flex items-end justify-between gap-6">
           <div>
@@ -153,23 +180,39 @@ function Index() {
         </div>
       </section>
 
+      {/* ── How it works (Scroll Stack) ── */}
       <section className="mx-auto max-w-7xl px-6 pt-36">
-        <Reveal><h2 className="max-w-2xl font-display text-4xl md:text-5xl">Built on transparency, not promises.</h2></Reveal>
-        <div className="mt-16 grid gap-12 md:grid-cols-3">
-          {[
-            { I: ReceiptText, t: "Itemized estimates", d: "See visit charges, parts and labour before any work begins." },
-            { I: ShieldCheck, t: "Real accountability", d: "Reviews tied to completed jobs and a visible service history." },
-            { I: FolderClock, t: "Lasting repair records", d: "Every repair, part and warranty saved to your home's history." },
-          ].map(({ I, t, d }, i) => (
-            <Reveal key={t} delay={i * 90}>
-              <I className="size-6 text-primary" />
-              <h3 className="mt-5 text-xl font-semibold">{t}</h3>
-              <p className="mt-2 leading-relaxed text-muted-foreground">{d}</p>
-            </Reveal>
-          ))}
+        <Reveal>
+          <TextShuffle text="Built on transparency, not promises." delay={100} className="max-w-2xl font-display text-4xl md:text-5xl" />
+        </Reveal>
+        <div className="mt-16 grid gap-12 md:grid-cols-2">
+          <div className="space-y-6">
+            <ScrollStack items={[
+              { num: "01", title: "Describe the problem", desc: "Tell us what's broken. The more detail you give, the better the pro can prepare." },
+              { num: "02", title: "Compare transparent estimates", desc: "See inspection charges, labour and parts separately. No hidden costs, ever." },
+              { num: "03", title: "Book a demo visit", desc: "Pick a time that works. A simulated confirmation is saved to this browser." },
+              { num: "04", title: "Keep a repair record", desc: "Every job, part and warranty is stored in your home's repair history." },
+            ]} />
+          </div>
+          <div className="space-y-6">
+            {[
+              { I: ReceiptText, t: "Itemized estimates", d: "See visit charges, parts and labour before any work begins." },
+              { I: ShieldCheck, t: "Real accountability", d: "Reviews tied to completed jobs and a visible service history." },
+              { I: FolderClock, t: "Lasting repair records", d: "Every repair, part and warranty saved to your home's history." },
+            ].map(({ I, t, d }, i) => (
+              <Reveal key={t} delay={i * 90}>
+                <div className="border-glow rounded-2xl border border-border bg-card p-7">
+                  <I className="size-6 text-primary" />
+                  <h3 className="mt-5 text-xl font-semibold">{t}</h3>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">{d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* ── Scroll Expand image ── */}
       <section className="pt-32" aria-label="Trustworthy repairs">
         <ExpandingImage src={workbench} alt="A technician's hands removing a tiny component from a circuit board with soldering tweezers">
           <h2 className="font-display text-4xl md:text-6xl">Care in every repair.</h2>
@@ -177,9 +220,11 @@ function Index() {
         </ExpandingImage>
       </section>
 
+      {/* ── Closing CTA ── */}
       <section className="mx-auto max-w-7xl px-6 pt-36">
         <Reveal className="glare-hover bg-ink px-8 py-24 text-center text-highlight md:py-32">
-          <h2 className="font-display text-6xl md:text-8xl">Fix it once. Fix it right.</h2>
+          <Sparkles className="mx-auto size-8 text-highlight/60" />
+          <h2 className="mt-6 font-display text-6xl md:text-8xl">Fix it once. Fix it right.</h2>
           <p className="mx-auto mt-4 max-w-md opacity-80">See how FixTrust works, or start comparing professionals now.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/technicians" className="btn-premium bg-highlight text-highlight-foreground transition hover:opacity-90">Find a pro</Link>

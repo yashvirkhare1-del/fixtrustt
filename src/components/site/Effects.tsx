@@ -105,3 +105,92 @@ export function SplitText({ text, className = "", highlight = "", delay = 0 }: {
     </h1>
   );
 }
+
+export function TextShuffle({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
+  const [display, setDisplay] = useState(text);
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  useEffect(() => {
+    if (reduced) return;
+    let raf = 0;
+    let frame = 0;
+    const totalFrames = 18;
+    const animate = () => {
+      frame++;
+      if (frame >= totalFrames) {
+        setDisplay(text);
+        return;
+      }
+      const progress = frame / totalFrames;
+      setDisplay(text.split("").map((c, i) => {
+        if (c === " ") return " ";
+        if (i < progress * text.length) return c;
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join(""));
+      raf = requestAnimationFrame(animate);
+    };
+    const startTimer = setTimeout(() => { raf = requestAnimationFrame(animate); }, delay);
+    return () => { clearTimeout(startTimer); cancelAnimationFrame(raf); };
+  }, [text, delay, reduced]);
+
+  return <h2 className={className}>{display}</h2>;
+}
+
+export function ScrollStack({ items }: { items: { num: string; title: string; desc: string }[] }) {
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) {
+    return (
+      <div className="space-y-8">
+        {items.map((item) => (
+          <div key={item.num} className="rounded-2xl border border-border bg-card p-8">
+            <p className="font-display text-5xl text-primary">{item.num}</p>
+            <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
+            <p className="mt-2 text-muted-foreground">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-6">
+      {items.map((item, i) => (
+        <div
+          key={item.num}
+          className="scroll-stack-item rounded-2xl border border-border bg-card p-8 shadow-[0_20px_50px_-30px_var(--ink)]"
+          style={{ top: `${10 + i * 4}vh` }}
+        >
+          <div className="flex items-start gap-6">
+            <p className="font-display text-5xl text-primary">{item.num}</p>
+            <div>
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{item.desc}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function CountUp({ value, className = "", prefix = "" }: { value: number; className?: string; prefix?: string }) {
+  const [ref, p] = useScrollProgress<HTMLSpanElement>();
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (p < 0.2) return;
+    let raf = 0;
+    const start = display;
+    const duration = 800;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setDisplay(Math.round(start + (value - start) * eased));
+      if (t < 1) raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [p, value]);
+  return <span ref={ref} className={className}>{prefix}{display.toLocaleString("en-IN")}</span>;
+}

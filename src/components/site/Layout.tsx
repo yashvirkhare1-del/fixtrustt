@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Volume2, VolumeX } from "lucide-react";
+import { Menu, X, Volume2, VolumeX, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Brand } from "./Brand";
 import { useSoundEnabled, toggleSound, playClick } from "@/lib/sound";
+import { useTheme, toggleTheme } from "@/lib/theme";
 
 const nav = [
   { to: "/technicians", label: "Find a pro" },
@@ -16,13 +17,14 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const soundOn = useSoundEnabled();
+  const theme = useTheme();
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 10);
     f(); window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
   }, []);
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? "border-b border-border bg-background/85 backdrop-blur" : "bg-transparent"}`}>
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? "border-b border-border bg-background/85 backdrop-blur-lg" : "bg-transparent"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" aria-label="FixTrust home"><Brand /></Link>
         <nav className="hidden items-center gap-7 md:flex">
@@ -30,25 +32,37 @@ export function Header() {
             <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
           <Link to="/" hash="offers" className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground">Offers</Link>
-          <button type="button" className="sound-toggle" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
-            {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
-            <span className="hidden sm:inline">{soundOn ? "Sound on" : "Sound off"}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button type="button" className="theme-toggle" aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} onClick={() => toggleTheme()}>
+              {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </button>
+            <button type="button" className="sound-toggle" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
+              {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
+              <span className="hidden lg:inline">{soundOn ? "Sound on" : "Sound off"}</span>
+            </button>
+          </div>
           <Button asChild className="rounded-full bg-ink px-5 text-highlight hover:bg-ink/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
-        <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </Button>
+        <div className="flex items-center gap-2 md:hidden">
+          <button type="button" className="theme-toggle" aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"} onClick={() => toggleTheme()}>
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
+          <Button variant="ghost" size="icon" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
+        </div>
       </div>
       <div id="mobile-nav" inert={!open} className={`grid overflow-hidden border-border bg-background transition-all duration-300 md:hidden ${open ? "grid-rows-[1fr] border-b" : "grid-rows-[0fr]"}`}>
         <div className="min-h-0">
           <div className="flex flex-col gap-4 px-6 pb-6">
             {nav.map((n) => <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-base">{n.label}</Link>)}
             <Link to="/" hash="offers" onClick={() => setOpen(false)} className="text-base">Offers</Link>
-            <button type="button" className="sound-toggle self-start" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
-              {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
-              {soundOn ? "Sound on" : "Sound off"}
-            </button>
+            <div className="flex items-center gap-3">
+              <button type="button" className="sound-toggle" data-on={soundOn} aria-pressed={soundOn} aria-label={soundOn ? "Mute sounds" : "Enable sounds"} onClick={() => { const on = toggleSound(); if (on) playClick(); }}>
+                {soundOn ? <Volume2 className="size-3.5" /> : <VolumeX className="size-3.5" />}
+                {soundOn ? "Sound on" : "Sound off"}
+              </button>
+            </div>
             <Link to="/technicians" onClick={() => setOpen(false)} className="mt-2 rounded-full bg-highlight px-5 py-3 text-center text-sm font-medium text-highlight-foreground">Book a repair</Link>
           </div>
         </div>

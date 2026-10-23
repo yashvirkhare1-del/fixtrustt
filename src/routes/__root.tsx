@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import { Header, Footer, Intro } from "../components/site/Layout";
 import { Cursor } from "../components/site/Effects";
+import { initThemeScript } from "../lib/theme";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
@@ -107,6 +108,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: initThemeScript() }} />
       </head>
       <body>
         {children}
