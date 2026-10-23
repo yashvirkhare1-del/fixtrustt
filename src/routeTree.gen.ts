@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EstimateRouteImport } from './routes/estimate'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as MyRepairsRouteImport } from './routes/my-repairs'
 import { Route as BookIdRouteImport } from './routes/book.$id'
@@ -19,6 +20,11 @@ import { Route as TechniciansIdRouteImport } from './routes/technicians.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EstimateRoute = EstimateRouteImport.update({
+  id: '/estimate',
+  path: '/estimate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -49,6 +55,7 @@ const TechniciansIdRoute = TechniciansIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/estimate': typeof EstimateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/my-repairs': typeof MyRepairsRoute
   '/book/$id': typeof BookIdRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/estimate': typeof EstimateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/my-repairs': typeof MyRepairsRoute
   '/book/$id': typeof BookIdRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/estimate': typeof EstimateRoute
   '/how-it-works': typeof HowItWorksRoute
   '/my-repairs': typeof MyRepairsRoute
   '/book/$id': typeof BookIdRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/estimate'
     | '/how-it-works'
     | '/my-repairs'
     | '/book/$id'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/estimate'
     | '/how-it-works'
     | '/my-repairs'
     | '/book/$id'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/estimate'
     | '/how-it-works'
     | '/my-repairs'
     | '/book/$id'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EstimateRoute: typeof EstimateRoute
   HowItWorksRoute: typeof HowItWorksRoute
   MyRepairsRoute: typeof MyRepairsRoute
   BookIdRoute: typeof BookIdRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/estimate': {
+      id: '/estimate'
+      path: '/estimate'
+      fullPath: '/estimate'
+      preLoaderRoute: typeof EstimateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-it-works': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EstimateRoute: EstimateRoute,
   HowItWorksRoute: HowItWorksRoute,
   MyRepairsRoute: MyRepairsRoute,
   BookIdRoute: BookIdRoute,

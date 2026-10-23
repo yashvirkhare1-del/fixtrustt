@@ -6,6 +6,7 @@ import { Brand } from "./Brand";
 
 const nav = [
   { to: "/technicians", label: "Find a pro" },
+  { to: "/estimate", label: "Cost estimator" },
   { to: "/how-it-works", label: "How it works" },
   { to: "/my-repairs", label: "My repairs" },
 ] as const;
@@ -26,6 +27,7 @@ export function Header() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground" activeProps={{ className: "text-sm text-foreground" }}>{n.label}</Link>
           ))}
+          <Link to="/" hash="offers" className="nav-link text-sm text-muted-foreground transition-colors hover:text-foreground">Offers</Link>
           <Button asChild className="rounded-full bg-highlight px-5 text-highlight-foreground hover:bg-highlight/90"><Link to="/technicians">Book a repair</Link></Button>
         </nav>
         <Button variant="ghost" size="icon" className="md:hidden" aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen(!open)}>
@@ -36,6 +38,8 @@ export function Header() {
         <div className="min-h-0">
           <div className="flex flex-col gap-4 px-6 pb-6">
             {nav.map((n) => <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-base">{n.label}</Link>)}
+            <Link to="/" hash="offers" onClick={() => setOpen(false)} className="text-base">Offers</Link>
+            <Link to="/technicians" onClick={() => setOpen(false)} className="mt-2 rounded-full bg-highlight px-5 py-3 text-center text-sm font-medium text-highlight-foreground">Book a repair</Link>
           </div>
         </div>
       </div>
@@ -60,7 +64,15 @@ export function Footer() {
           <p className="mt-2 leading-relaxed">A student concept. All professionals, reviews and prices are illustrative samples. No real bookings or payments.</p>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-6 pb-10 text-xs text-muted-foreground">© 2026 FixTrust concept</div>
+      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 pb-10 text-xs text-muted-foreground">
+        <p>© 2026 FixTrust concept</p>
+        <p>
+          Photo:{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Soldering_a_0805.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">Soldering a 0805</a>{" "}
+          by Aisart,{" "}
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">CC BY-SA 3.0</a>, resized.
+        </p>
+      </div>
     </footer>
   );
 }

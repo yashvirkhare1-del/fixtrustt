@@ -3,10 +3,9 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 export function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const media = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
     let raf = 0;
     const move = (e: PointerEvent) => {
-      if (!media.matches || e.pointerType === "touch") return;
+      if (e.pointerType !== "mouse") { if (dot.current) dot.current.dataset["visible"] = "false"; return; }
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const el = dot.current;
@@ -19,10 +18,10 @@ export function Cursor() {
     const hide = () => { if (dot.current) dot.current.dataset["visible"] = "false"; };
     window.addEventListener("pointermove", move);
     document.addEventListener("pointerleave", hide);
-    media.addEventListener("change", hide);
-    return () => { window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", hide); media.removeEventListener("change", hide); cancelAnimationFrame(raf); };
+    window.addEventListener("blur", hide);
+    return () => { window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", hide); window.removeEventListener("blur", hide); cancelAnimationFrame(raf); };
   }, []);
-  return <div ref={dot} aria-hidden className="custom-cursor pointer-events-none fixed left-0 top-0 z-[60]"><span className="block size-4 rounded-full border border-primary bg-highlight/45" /></div>;
+  return <div ref={dot} aria-hidden className="custom-cursor pointer-events-none fixed left-0 top-0 z-[100]"><span className="block size-4 rounded-full border border-primary bg-highlight/45" /></div>;
 }
 
 export function useScrollProgress<T extends HTMLElement>() {
