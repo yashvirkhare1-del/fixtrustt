@@ -60,7 +60,18 @@ export function Footer() {
           <p className="mt-2 leading-relaxed">A student concept. All professionals, reviews and prices are illustrative samples. No real bookings or payments.</p>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-6 pb-10 text-xs text-muted-foreground">© 2026 FixTrust concept</div>
+      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 pb-10 text-xs text-muted-foreground">
+        <p>© 2026 FixTrust concept</p>
+        <p>
+          Photos:{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:India_-_Varanasi_speaker_repair_-_0521.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">Varanasi speaker repair</a>{" "}
+          by Jorge Royan,{" "}
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">CC BY-SA 3.0</a>, cropped.{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Soldering_a_0805.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">Soldering a 0805</a>{" "}
+          by Aisart,{" "}
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">CC BY-SA 3.0</a>, resized.
+        </p>
+      </div>
     </footer>
   );
 }

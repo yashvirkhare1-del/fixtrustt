@@ -57,7 +57,7 @@ function Index() {
             </p>
           </div>
           <div className="relative min-w-0 animate-rise" style={{ animationDelay: "200ms" }}>
-            <Parallax className="overflow-hidden rounded-3xl" speed={0.1}><img src={hero} alt="Repair technician fixing a washing machine" width={1280} height={1024} fetchPriority="high" className="hero-photo aspect-[5/4] w-full object-cover" /></Parallax>
+            <Parallax className="overflow-hidden rounded-3xl" speed={0.1}><img src={hero} alt="A technician in Varanasi repairing a loudspeaker in his workshop, surrounded by speakers awaiting repair" width={1600} height={1280} fetchPriority="high" className="hero-photo aspect-[5/4] w-full object-cover" /></Parallax>
             <Parallax speed={-0.06} className="pointer-events-none absolute -bottom-5 right-4"><span className="inline-flex items-center gap-2 rounded-md border border-ink bg-highlight px-4 py-3 text-sm font-semibold text-highlight-foreground"><ShieldCheck className="size-5" />Clear estimates. No surprises.</span></Parallax>
           </div>
         </div>
@@ -130,7 +130,7 @@ function Index() {
       </section>
 
       <section className="pt-28" aria-label="Trustworthy repairs">
-        <ExpandingImage src={workbench} alt="A technician's hands carefully repairing an electronic circuit board">
+        <ExpandingImage src={workbench} alt="A technician's hands removing a tiny component from a circuit board with soldering tweezers">
           <h2 className="font-display text-4xl md:text-6xl">Care in every repair.</h2>
           <ScrollText text="The right hands. The full picture. A repair you can understand." className="mt-3 max-w-2xl text-lg text-primary-foreground" />
         </ExpandingImage>
