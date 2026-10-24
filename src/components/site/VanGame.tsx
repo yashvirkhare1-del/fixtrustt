@@ -3,14 +3,14 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, House, RotateCcw, Truck } fr
 import { Button } from "@/components/ui/button";
 
 // R = road, . = block, S = start, H = house
-const MAP = ["RRRR.RRH", "R..R.R..", "R..RRR..", "RR.R...R", ".R.RRRRR", "SR......"];
+const MAP: string[] = ["RRRR.RRH", "R..R.R..", "R..RRR..", "RR.R...R", ".R.RRRRR", "SR......"];
 const ROWS = MAP.length;
-const COLS = MAP[0].length;
-const find = (ch: string) => { for (let y = 0; y < ROWS; y++) { const x = MAP[y].indexOf(ch); if (x >= 0) return { x, y }; } return { x: 0, y: 0 }; };
+const COLS = MAP[0]?.length ?? 0;
+const find = (ch: string) => { for (let y = 0; y < ROWS; y++) { const x = MAP[y]?.indexOf(ch) ?? -1; if (x >= 0) return { x, y }; } return { x: 0, y: 0 }; };
 const START = find("S");
 const GOAL = find("H");
 const MAX_DIST = Math.abs(START.x - GOAL.x) + Math.abs(START.y - GOAL.y);
-const walkable = (x: number, y: number) => x >= 0 && y >= 0 && x < COLS && y < ROWS && MAP[y][x] !== ".";
+const walkable = (x: number, y: number) => x >= 0 && y >= 0 && x < COLS && y < ROWS && MAP[y]?.[x] !== ".";
 
 type Dir = "up" | "down" | "left" | "right";
 const delta: Record<Dir, [number, number]> = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
