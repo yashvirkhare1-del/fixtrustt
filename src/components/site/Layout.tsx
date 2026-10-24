@@ -7,9 +7,11 @@ import { useSoundEnabled, toggleSound, playClick } from "@/lib/sound";
 import { useTheme, toggleTheme } from "@/lib/theme";
 
 const nav = [
-  { to: "/technicians", label: "Find a pro" },
-  { to: "/estimate", label: "Cost estimator" },
+  { to: "/", label: "Home" },
+  { to: "/#services", label: "Services" },
   { to: "/how-it-works", label: "How it works" },
+  { to: "/estimate", label: "Estimator" },
+  { to: "/technicians", label: "Professionals" },
   { to: "/my-repairs", label: "My repairs" },
 ] as const;
 
@@ -73,28 +75,29 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-border">
+    <footer className="mt-32 bg-ink text-highlight">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
           <Link to="/" aria-label="FixTrust home"><Brand /></Link>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">Transparent pricing, real experience and lasting repair records for every home.</p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed opacity-70">Transparent pricing, real experience and lasting repair records for every home.</p>
         </div>
         <div className="flex flex-col gap-2 text-sm">
           <p className="font-medium">Explore</p>
-          {nav.map((n) => <Link key={n.to} to={n.to} className="text-muted-foreground hover:text-foreground">{n.label}</Link>)}
+          {nav.map((n) => <Link key={n.to + n.label} to={n.to} className="opacity-70 transition-opacity hover:opacity-100">{n.label}</Link>)}
+          <Link to="/" hash="offers" className="opacity-70 transition-opacity hover:opacity-100">Offers</Link>
         </div>
-        <div className="text-sm text-muted-foreground">
-          <p className="font-medium text-foreground">About this prototype</p>
-          <p className="mt-2 leading-relaxed">A student concept. All professionals, reviews and prices are illustrative samples. No real bookings or payments.</p>
+        <div className="flex flex-col gap-2 text-sm opacity-70">
+          <p className="font-medium text-highlight">About this prototype</p>
+          <p className="leading-relaxed">A student concept. All professionals, reviews and prices are illustrative samples. No real bookings or payments.</p>
         </div>
       </div>
-      <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 pb-10 text-xs text-muted-foreground">
+      <div className="mx-auto flex max-w-7xl flex-col gap-2 border-t border-highlight/10 px-6 pb-10 pt-6 text-xs opacity-50">
         <p>© 2026 FixTrust concept</p>
         <p>
           Photo:{" "}
-          <a href="https://commons.wikimedia.org/wiki/File:Soldering_a_0805.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">Soldering a 0805</a>{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Soldering_a_0805.jpg" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:opacity-100">Soldering a 0805</a>{" "}
           by Aisart,{" "}
-          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-foreground">CC BY-SA 3.0</a>, resized.
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:opacity-100">CC BY-SA 3.0</a>, resized.
         </p>
       </div>
     </footer>
