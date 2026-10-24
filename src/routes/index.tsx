@@ -210,7 +210,7 @@ function StepsSection() {
 
 function EstimatorSection() {
   const cats = Object.keys(jobEstimates);
-  const [cat, setCat] = useState(cats[0]);
+  const [cat, setCat] = useState<string>(cats[0] ?? "");
   const jobs = jobEstimates[cat] ?? [];
   const [jobId, setJobId] = useState(jobs[0]?.id ?? "");
   const [parts, setParts] = useState(true);
@@ -226,7 +226,7 @@ function EstimatorSection() {
           <div className="mt-8 space-y-5">
             <label className="block text-sm font-medium">Service
               <select className={sel} value={cat} onChange={(e) => { setCat(e.target.value); setJobId(jobEstimates[e.target.value]?.[0]?.id ?? ""); }}>
-                {cats.map((c) => <option key={c} value={c}>{c[0].toUpperCase() + c.slice(1)}</option>)}
+                {cats.map((c) => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
               </select>
             </label>
             <label className="block text-sm font-medium">Issue
