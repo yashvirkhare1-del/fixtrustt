@@ -31,15 +31,13 @@ export function VanGame() {
 
   const move = useCallback((d: Dir) => {
     if (won) return;
-    setPos((p) => {
-      const nx = p.x + delta[d][0], ny = p.y + delta[d][1];
-      if (!walkable(nx, ny)) return p;
-      setMoves((m) => m + 1);
-      setStarted((s) => s ?? Date.now());
-      if (nx === GOAL.x && ny === GOAL.y) setWon(true);
-      return { x: nx, y: ny };
-    });
-  }, [won]);
+    const nx = pos.x + delta[d][0], ny = pos.y + delta[d][1];
+    if (!walkable(nx, ny)) return;
+    setPos({ x: nx, y: ny });
+    setMoves((m) => m + 1);
+    setStarted((s) => s ?? Date.now());
+    if (nx === GOAL.x && ny === GOAL.y) setWon(true);
+  }, [won, pos]);
 
   const onKey = (e: React.KeyboardEvent) => {
     const map: Record<string, Dir> = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
